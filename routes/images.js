@@ -3,6 +3,8 @@ const router = express.Router();
 
 const cloudinary = require('cloudinary').v2;
 
+let cache = null;
+
 const dotenv = require('dotenv');
 dotenv.config();
 
@@ -20,28 +22,28 @@ router.get('/', (req, res) => {
 
 http://localhost:3000/images/about
 router.get('/about', async (req, res) => {
+
+    if (cache) return res.json(cache);
+
     try{
         const results = await cloudinary.search
             .expression('folder:gallery')
             .sort_by('public_id', 'desc')
-          //  .max_results(30)
+            .max_results(500)
             .execute();
-        const imageURLs = results.resources.map(file => ({
+        const images = results.resources.map(file => ({
             id: file.public_id,
             url: file.secure_url,
             title: file.filename
         }));
 
-        res.json(imageURLs);
+        cache = images;
+
+        res.json(cache);
     } catch (error) {
         console.error(error);
         res.status(500).json({ error: "Failed to fetch images" });
     }
-//    const photos = [
-//         { id: 1, title: "Sunset", url: "https://cloudinary-res.cloudinary.com/image/upload/f_auto/q_auto/docs/ios_sample.png" },
-//         { id: 2, title: "Mountain", url: "https://res.cloudinary.com/demo/image/upload/v1/sample.jpg" }
-//     ];
-//     res.json(photos);
 });
 
 router.get('/102', (req, res) => {
