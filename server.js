@@ -11,10 +11,10 @@ const imagesRoute = require('./routes/images');
 // This means all URLs starting with /images will be handled by that file
 app.use('/images', imagesRoute);
 
-// 3. Simple test route for the home page
 app.get('/', (req, res) => {
     res.send('<h1>Hello, Node.js Express Server!</h1>');
 });
+
 
 // 4. Start the server
 app.listen(port, () => {

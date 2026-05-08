@@ -15,40 +15,60 @@ cloudinary.config({
   api_secret: process.env.SECRET
 });
 
-// Define a route
-router.get('/', (req, res) => {
-    
-});
+function getOptimizedUrl(publicId, width) {
+    return cloudinary.url(publicId, {
+        transformation: [
+            { width, crop: "limit", dpr: "auto" },
+            { fetch_format: "auto", quality: "auto:eco"}
+        ]
+    });
+}
 
-http://localhost:3000/images/about
-router.get('/about', async (req, res) => {
+router.get('/', (req, res) => {});
 
-    if (cache) return res.json(cache);
-
-    try{
-        const results = await cloudinary.search
-            .expression('folder:gallery')
-            .sort_by('public_id', 'desc')
-            .max_results(500)
-            .execute();
-        const images = results.resources.map(file => ({
-            id: file.public_id,
-            url: file.secure_url,
-            title: file.filename
-        }));
-
-        cache = images;
-
-        res.json(cache);
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ error: "Failed to fetch images" });
+//folders
+router.get('/folders', async (req, res) => {
+    try {
+        
+        const result = await cloudinary.api.root_folders();
+        res.json(result.folders); 
+    } 
+    catch(error) {
+        res.status(500).json({ error: error.message });
     }
 });
 
-router.get('/102', (req, res) => {
-    res.send('this is uss ser 102 route');// this gets executed when user visit http://localhost:3000/user/102
+//folder images
+router.get('/folders/:folderName', async (req, res) => {
+    console.log('received');
+    try {
+        const { folderName } = req.params;
+        const result = await cloudinary.search
+            .expression(`folder="${folderName}"/*`)
+            .sort_by('public_id', 'desc')
+            .max_results(500)
+            .execute();
+        
+        const optimized_results = result.resources.map(img => ({
+            id: img.public_id,
+            name: img.filename,
+            url: getOptimizedUrl(img.public_id, 800),
+            fullscreenUrl: getOptimizedUrl(img.public_id, 1600)
+        }))
+
+        console.log(optimized_results);
+
+        // console.log("folder:", folderName);
+        // console.log("resources:", result.resources.length);
+
+        res.json(optimized_results); //return image-object array
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
 });
+
+
+
 
 // export the router module so that server.js file can use it
 module.exports = router;
