@@ -41,7 +41,7 @@ The tunnel runs as a system daemon on the Raspberry Pi, mapping traffic from ```
 * Checking Tunnel status: ```systemctl status cloudflared```
 * Restarting Tunnel: ```sudo systemctl restart cloudflared```
 
-## General Project Structure 
+## Project Structure 
 ```text
 ├── routes/                
 │   └── images.js       # Handles all API requests
