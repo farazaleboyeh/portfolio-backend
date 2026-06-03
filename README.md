@@ -1,6 +1,6 @@
 # Photography Portfolio Backend
 
-This repository contains the backend source code for [yanchengqiu.com](https://yanchengqiu.com).
+Repository contains the backend source code for [yanchengqiu.com](https://yanchengqiu.com).
 
 ## Tech Stack & Architecture
 * **Runtime Environment:** Node.js (v22.x)
