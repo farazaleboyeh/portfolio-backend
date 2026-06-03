@@ -9,7 +9,7 @@ Repository contains the backend source code for [yanchengqiu.com](https://yanche
 * **Media Processing:** Cloudinary API (Node.js SDK)
 
 ##  Environments & Accounts
-This project splits its infrastructure between cloud-hosted static frontends and a self-hosted local backend.
+Infrastructure is split between a GitHub Pages static frontend and a self-hosted local backend.
 
 ###  Frontend Infrastructure
 * **Hosting Provider:** GitHub Pages
