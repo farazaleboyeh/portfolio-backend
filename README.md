@@ -33,7 +33,7 @@ Infrastructure is split between a GitHub Pages static frontend and a self-hosted
 ### Installation & Setup
 1. Clone with ```git clone https://github.com/farazaleboyeh/portfolio-backend.git```.
 2. Run `npm install` to install dependencies.
-3. Duplicate .env.example as .env and fill in credentials, with  ```cp .env.example .env```.
+3. Duplicate ```.env.example``` as ```.env``` and fill in credentials, with  ```cp .env.example .env```.
 4. Run `node server.js` to start server.
 
 ### Cloudflare Tunnel Maintenance
